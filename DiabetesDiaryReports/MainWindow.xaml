@@ -1,0 +1,70 @@
+﻿<Window x:Class="DiabetesDiaryReports.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiabetesDiaryReports"
+        mc:Ignorable="d"
+        Title="MainWindow" WindowState="Maximized">
+    <Window.Resources>
+        <CollectionViewSource x:Key="EntryLogViewSource"                      
+            CollectionViewType="ListCollectionView"/>
+        <!--<CollectionViewSource x:Key="SummaryViewSource" 
+            CollectionViewType="ListCollectionView" />-->
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="950"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="btnCreateLogReport" Content="Save Log Report" Grid.Row="0" Grid.Column="1" Click="btnCreateLogReport_Click"/>
+        <Button x:Name="btnCreateSummary" Content="Save Summary Report" Grid.Row="0" Grid.Column="0" Click="btnCreateSummary_Click"/>
+        <DataGrid x:Name="logGrid" Grid.Row="1" Grid.Column="1" 
+
+            DataContext="{StaticResource EntryLogViewSource}"
+            ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}"
+            
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserReorderColumns="True"
+            CanUserSortColumns="True"
+            CanUserResizeColumns="True"
+            IsReadOnly="True"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New" >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background"
+                        Value="{Binding RelativeSource={RelativeSource Self}}">
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding DateStr}" />
+                <DataGridTextColumn Header="Type" Binding="{Binding TypeStr}" />
+                <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
+                <DataGridTextColumn Header="Glucose" Binding="{Binding Glucose}" />
+
+                <DataGridTextColumn Header="Base" Binding="{Binding BaseDose}" />
+                <DataGridTextColumn Header="Adj" Binding="{Binding GlucoseAdj}" />
+                <DataGridTextColumn Header="Fast" Binding="{Binding FastActingDose}" />
+                <DataGridTextColumn Header="Slow" Binding="{Binding SlowActingDose}" />
+                <DataGridTextColumn Header="Carbs" Binding="{Binding CarbGrams}" />
+                <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ListBox x:Name="summaryListBox" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Summary}" FontFamily="Courier New"/>
+        <!--<Setter Property="FontFamily" Value="Courier New"/>-->
+        <!--ItemsSource="Binding summaryViewSource">-->
+        <!--<TextBlock Text="{Binding summaryViewSource}" />-->
+
+
+    </Grid>
+</Window>
